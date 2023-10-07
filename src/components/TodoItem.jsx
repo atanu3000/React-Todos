@@ -26,6 +26,7 @@ const TodoItem = ({ todo, id }) => {
                 className="cursor-pointer"
                 checked={todo.completed}
                 onChange={isCompleted}
+                disabled={isTodoEditable}
             />
             {isTodoEditable ? (
                 <textarea
@@ -34,12 +35,12 @@ const TodoItem = ({ todo, id }) => {
                         isTodoEditable
                             ? "border-black/10 px-2"
                             : "border-transparent"
-                    } ${todo.completed ? "line-through" : ""}`}
+                    } `}
                     value={todoMsg}
                     onChange={(e) => setTodoMsg(e.target.value)}
                 ></textarea>
             ) : (
-                <p className="w-full">{todoMsg}</p>
+                <p className={`w-full ${todo.completed ? "line-through" : ""}`}>{todoMsg}</p>
             )}
             <button
                 className="inline-flex w-8 h-8 rounded-lg text-sm border border-black/10 justify-center items-center bg-gray-50 hover:bg-gray-100 shrink-0 disabled:opacity-50"
