@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import { useTodo } from "../contexts";
 
-const TodoItem = ({todo, id}) => {
-    const {updateTodo, deleteTodo, toggoleComplete} = useTodo();
+const TodoItem = ({ todo, id }) => {
+    const { updateTodo, deleteTodo, toggoleComplete } = useTodo();
     const [isTodoEditable, setIsTodoEditable] = useState(false);
-    const [todoMsg ,setTodoMsg] = useState(todo.todo);
+    const [todoMsg, setTodoMsg] = useState(todo.todo);
 
     const editTodo = () => {
-        updateTodo(todo.id, {...todo, todo:todoMsg});
+        updateTodo(todo.id, { ...todo, todo: todoMsg });
         setIsTodoEditable(false);
-    }
+    };
 
     const isCompleted = () => {
-        toggoleComplete(todo.id)
-    }
+        toggoleComplete(todo.id);
+    };
 
     return (
         <div
@@ -27,18 +27,20 @@ const TodoItem = ({todo, id}) => {
                 checked={todo.completed}
                 onChange={isCompleted}
             />
-            <input
-                type="text"
-                className={`border outline-none w-full bg-transparent rounded-lg ${
-                    isTodoEditable
-                        ? "border-black/10 px-2"
-                        : "border-transparent"
-                } ${todo.completed ? "line-through" : ""}`}
-                value={todoMsg}
-                onChange={(e) => setTodoMsg(e.target.value)}
-                readOnly={!isTodoEditable}
-            />
-            {/* Edit, Save Button */}
+            {isTodoEditable ? (
+                <textarea
+                    type="text"
+                    className={`border outline-none w-full bg-transparent rounded-lg ${
+                        isTodoEditable
+                            ? "border-black/10 px-2"
+                            : "border-transparent"
+                    } ${todo.completed ? "line-through" : ""}`}
+                    value={todoMsg}
+                    onChange={(e) => setTodoMsg(e.target.value)}
+                ></textarea>
+            ) : (
+                <p className="w-full">{todoMsg}</p>
+            )}
             <button
                 className="inline-flex w-8 h-8 rounded-lg text-sm border border-black/10 justify-center items-center bg-gray-50 hover:bg-gray-100 shrink-0 disabled:opacity-50"
                 onClick={() => {
@@ -52,7 +54,6 @@ const TodoItem = ({todo, id}) => {
             >
                 {isTodoEditable ? "📁" : "✏️"}
             </button>
-            {/* Delete Todo Button */}
             <button
                 className="inline-flex w-8 h-8 rounded-lg text-sm border border-black/10 justify-center items-center bg-gray-50 hover:bg-gray-100 shrink-0"
                 onClick={() => deleteTodo(todo.id)}
